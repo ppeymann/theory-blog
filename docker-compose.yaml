@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: my_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: blogcraft
+      POSTGRES_USER: blogcraft
+      POSTGRES_PASSWORD: aK5dtkb1Z767HeAy6x73seWqMNpk62S1
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
