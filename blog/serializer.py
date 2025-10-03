@@ -1,16 +1,21 @@
-from django.contrib.auth.models import User
 from rest_framework import serializers
+from .models import Post
 
-class UserSerializer(serializers.ModelSerializer):
+class PostSerializer(serializers.ModelSerializer):
+    author = serializers.StringRelatedField(read_only=True)
+
     class Meta:
-        model = User
-        fields = ['id', 'username', 'password']
-        extra_kwargs = {'password': {'write_only': True}}
+        model = Post
+        fields = [
+            'id',
+            'title',
+            'description',
+            'slug',
+            'created_at',
+            'updated_at',
+            'published_at',
+            'author',
+            'status',
+        ]
 
-    def create(self, validated_data):
-        user = User(
-            username=validated_data['username'],
-        )
-        user.set_password(validated_data['password'])
-        user.save()
-        return user
+        read_only_fields = ['id', 'published_at','created_at', 'updated_at'],

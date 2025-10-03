@@ -1,44 +1,46 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from datetime import datetime
 
-class PublishedManage(models.Manager):
+class PublishedManager(models.Manager):
     def get_queryset(self) -> models.QuerySet:
         return super().get_queryset().filter(status=Post.Status.PUBLISHED)
 
-# Create your models here.
 class Post(models.Model):
+
     class Status(models.TextChoices):
-        DRAFT: str = 'DF', 'Draft'
-        PUBLISHED: str = 'PB', 'Published'
-        REJECTED: str = 'RJ', 'Rejected'
+        DRAFT = 'DF', "Draft"
+        PUBLISHED = 'PB', "Published"
+        REJECTED = 'RJ', "Rejected"
 
-    # Related with user table
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_post')
-
-
-    # title of post
     title: str = models.CharField(max_length=250)
-    # description of post
     description: str = models.TextField()
-    # slug of post
-    slug:str = models.SlugField(max_length=250)
+    slug: str = models.SlugField(max_length=250)
 
-    # Date
-    publish = models.DateTimeField(default=timezone.now)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    # Date models
+    created_at: datetime = models.DateTimeField(auto_now_add=True)
+    updated_at: datetime = models.DateTimeField(auto_now=True)
+    published_at: datetime = models.DateTimeField(default=timezone.now)
 
-    status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT)
+    # Related Field
+    author: User = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_post')
+
+    # Choice Field
+    status: Status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT)
 
     objects = models.Manager()
-    published = PublishedManage()
+
+    # for get just published Post
+    published = PublishedManager()
 
     class Meta:
-        ordering = ['-publish']
+        ordering = ['-published_at']
 
         indexes = [
-            models.Index(fields=['-publish']),
+            models.Index(
+                fields=['-published_at', 'title'],
+            )
         ]
 
     def __str__(self):
