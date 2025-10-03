@@ -17,5 +17,7 @@ class PostSerializer(serializers.ModelSerializer):
             'author',
             'status',
         ]
-
-        read_only_fields = ['id', 'published_at','created_at', 'updated_at'],
+        extra_kwargs = {
+            'author': {'read_only': True},
+        }
+        read_only_fields = ['id', 'published_at','created_at', 'updated_at']
