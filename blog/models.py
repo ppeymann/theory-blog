@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from datetime import datetime
 
+
 class PublishedManager(models.Manager):
     def get_queryset(self) -> models.QuerySet:
         return super().get_queryset().filter(status=Post.Status.PUBLISHED)
@@ -34,6 +35,9 @@ class Post(models.Model):
     # for get just published Post
     published = PublishedManager()
 
+    # image
+    image = models.ImageField(upload_to='posts/', null=True, blank=True)
+
     class Meta:
         ordering = ['-published_at']
 
@@ -45,3 +49,4 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+

@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'user.apps.UserConfig',
-    'drf_yasg'
+    'drf_yasg',
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -141,3 +142,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLWED_CREDENTIALS = True
+
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+AWS_ACCESS_KEY_ID = "minio"
+AWS_SECRET_ACCESS_KEY = "Y2rbs7yRaN9qNKcv8VuX7CP3VZz8rF5YmmWYqx35bG6dHsM8QU"
+AWS_STORAGE_BUCKET_NAME = "posts"
+
+
+AWS_S3_ENDPOINT_URL = "http://127.0.0.1:9001"
+AWS_S3_REGION_NAME = "us-east-1"
+AWS_S3_SIGNATURE_VERSION = "s3v4"
+
+
+AWS_S3_USE_SSL = False
+AWS_S3_VERIFY = False
+AWS_QUERYSTRING_AUTH = False

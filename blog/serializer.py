@@ -16,6 +16,7 @@ class PostSerializer(serializers.ModelSerializer):
             'published_at',
             'author',
             'status',
+            'image'
         ]
         extra_kwargs = {
             'author': {'read_only': True},
