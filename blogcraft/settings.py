@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'user.apps.UserConfig',
     'drf_yasg',
-    'storages'
+    'storages',
+    'comment.apps.CommentConfig'
 ]
 
 MIDDLEWARE = [
