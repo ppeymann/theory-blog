@@ -1,8 +1,11 @@
 from rest_framework import serializers
+
+from comment.serializer import CommentSerializer
 from .models import Post
 
 class PostSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
+    comments = CommentSerializer(many=True, read_only=True)
 
     class Meta:
         model = Post
@@ -16,7 +19,8 @@ class PostSerializer(serializers.ModelSerializer):
             'published_at',
             'author',
             'status',
-            'image'
+            'image',
+            'comments'
         ]
         extra_kwargs = {
             'author': {'read_only': True},
