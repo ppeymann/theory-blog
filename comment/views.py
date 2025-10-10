@@ -20,3 +20,13 @@ class CommentListCreateForPost(generics.ListCreateAPIView):
         post_id = self.kwargs.get("pk")
         post:Post = get_object_or_404(Post, id=post_id)
         serializer.save(author=self.request.user, post=post)
+
+class CommentUpdate(generics.RetrieveUpdateAPIView):
+    queryset = Comment.objects.all()
+    serializer_class: CommentSerializer = CommentSerializer
+    permission_classes: list = [permissions.IsAuthenticatedOrReadOnly]
+
+class CommentDelete(generics.DestroyAPIView):
+    queryset = Comment.objects.all()
+    serializer_class: CommentSerializer = CommentSerializer
+    permission_classes: list = [permissions.IsAuthenticatedOrReadOnly]
